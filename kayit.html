@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+ <!-- Firebase SDK'larını içe aktar -->
+ <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+
+    // Firebase yapılandırma bilgilerinizi buraya ekleyin
+    const firebaseConfig = {
+      apiKey: "AIzaSyAJgSH9UDvAPLKG0x9yVRkK_Y3HYafDMrI",
+      authDomain: "html-a7af7.firebaseapp.com",
+      projectId: "html-a7af7",
+      storageBucket: "html-a7af7.firebasestorage.app",
+      messagingSenderId: "1017579361406",
+      appId: "1:1017579361406:web:28c037745024344edbf42f",
+      measurementId: "G-83KSJC34NJ"
+    };
+
+    // Firebase'i başlat
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Kullanıcı kaydı fonksiyonu
+    window.registerUser = function() {
+      const email = document.getElementById('registerEmail').value;
+      const password = document.getElementById('registerPassword').value;
+
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log("Kullanıcı kaydı başarılı!", user);
+          alert("Kayıt başarılı!");
+        })
+        .catch((error) => {
+          console.error("Kayıt hatası:", error.message);
+          alert("Kayıt başarısız: " + error.message);
+        });
+    };
+
+    // Kullanıcı girişi fonksiyonu
+    window.loginUser = function() {
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log("Giriş başarılı!", user);
+          alert("Giriş başarılı!");
+        })
+        .catch((error) => {
+          console.error("Giriş hatası:", error.message);
+          alert("Giriş başarısız: " + error.message);
+        });
+    };
+
+    // Kullanıcı çıkışı fonksiyonu
+    window.logoutUser = function() {
+      signOut(auth).then(() => {
+        alert("Kullanıcı çıkışı yapıldı.");
+      }).catch((error) => {
+        alert("Çıkış sırasında hata oluştu.");
+      });
+    };
+
+  </script>
+
+</head>
+<body>
+    <table border="1">
+        <tr height="100">
+            <td><img src="img/meb.png" width="120"></td>
+            <td>
+                    <a href="#">ANASAYFA</a> --
+                    <a href="index.html">GİRİŞ</a> --
+                    <a href="#">İLETİŞİM</a> --
+                    <a href="#">FOTOĞRAFLAR</a>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2"><img src="img/banner.png" width="600"></td>
+        </tr>
+        <tr height="170">
+            <td>
+                Ürünlerimiz
+                
+                <ol type="1">
+                    <li><a href="#">Bilgisayar</a></li>
+                    <li><a href="#">Telefon</a></li>
+                    <li><a href="#">Tablet</a></li>
+                </ol>
+            </td>
+            <td align="center" bgcolor="lightgray">
+                <form id="registerForm" onsubmit="event.preventDefault(); registerUser();">
+                    <h1>Kayıt</h1>
+                    Email: <input type="email" id="registerEmail" required> <br/>
+                    Şifre: <input type="password" id="registerPassword" required> <br/>
+                    Mesajınız: <textarea> </textarea> <br/><br/>
+                    <input type="submit" value="GİRİŞ"/> <input type="reset" value="SİL"/>
+                    <!-- Çıkış Yapma -->
+                    <button onclick="logoutUser()">Çıkış Yap</button>
+                </form>
+            </td>
+        </tr>
+        <tr bgcolor="lightgray" height="50">
+            <td colspan="2">Tüm Hakları Saklıdır</td>
+        </tr>
+    </table>
+</body>
+</html>
